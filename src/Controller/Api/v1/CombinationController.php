@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CombinationController extends AbstractController
 {
 	#[Route('/api/v1/combination', name: 'app_api_v1_combination')]
-	public function generateCombinations(Request $request)
+	public function generateCombinations(Request $request): JsonResponse
 	{
 		$inputString = $request->get('data');
 		$combinations = $this->getCombinations($inputString);
@@ -23,35 +23,32 @@ class CombinationController extends AbstractController
 		return new JsonResponse($response);
 	}
 
-	private function getCombinations($inputString)
+	private function getCombinations(string $inputString): array
 	{
-		$set = str_split($inputString);
+		$characters = str_split($inputString);
 		$results = [];
-		$this->createPossibleArrays($set, '', $results);
+		$this->createPossibleArrays($characters, '', $results);
 		return array_values($results);
 	}
 
-	private function createPossibleArrays($set, $current, &$results, $iter = 0)
+	private function createPossibleArrays(array $characters, string $current, array &$results): void
 	{
-		if (empty($set)) {
+		if (empty($characters)) {
 			$results[] = $current;
 			return;
 		}
 
 		$visited = [];
 
-		for ($i = 0; $i < count($set); $i++) {
-			$char = $set[$i];
-
+		foreach ($characters as $i => $char) {
 			if (isset($visited[$char])) {
 				continue;
 			}
 
 			$visited[$char] = true;
-			$newSet = $set;
-
-			array_splice($newSet, $i, 1);
-			$this->createPossibleArrays($newSet, $current . $char, $results, $iter++);
+			$newCharacters = $characters;
+			array_splice($newCharacters, $i, 1);
+			$this->createPossibleArrays($newCharacters, $current . $char, $results);
 		}
 	}
 }
