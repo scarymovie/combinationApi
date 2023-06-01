@@ -19,7 +19,7 @@ class CombinationController extends AbstractController
 	}
 
 	#[Route('/combination', name: 'combination')]
-	public function generateCombinations(Request $request): Response
+	public function index(Request $request): Response
 	{
 		$inputString = $request->get('data');
 
