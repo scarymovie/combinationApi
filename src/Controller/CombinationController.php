@@ -8,9 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class CombinationController extends AbstractController
 {
@@ -21,6 +18,11 @@ class CombinationController extends AbstractController
 		$this->twig = $twig;
 	}
 
+	/**
+	 * @throws \Twig\Error\SyntaxError
+	 * @throws \Twig\Error\RuntimeError
+	 * @throws \Twig\Error\LoaderError
+	 */
 	#[Route('/combination', name: 'combination')]
 	public function index(Request $request): Response
 	{
@@ -46,4 +48,5 @@ class CombinationController extends AbstractController
 			return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
 		}
 	}
+
 }
