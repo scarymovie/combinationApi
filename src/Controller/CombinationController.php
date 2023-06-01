@@ -48,5 +48,4 @@ class CombinationController extends AbstractController
 			return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
 		}
 	}
-
 }
